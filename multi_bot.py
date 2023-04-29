@@ -8,10 +8,10 @@ import email
 from PIL import Image
 from PyPDF2 import PdfFileMerger
 import re
-API_KEY = "6204099009:AAE-SAOmucAseVsMGHgron0A2OsTIKu3884"
+API_KEY = "<TELEGRAM BOT API KEY>"
 bot = telebot.TeleBot(API_KEY)
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
-API = "533736d7bda8fe68d7914d84c0354da6"
+API = "<OPEN WEATHER API KEY>"
 bot = telebot.TeleBot(API_KEY)
 def remove(list):
     pattern = '[0-9]'
@@ -53,8 +53,8 @@ def convert(message):
 @bot.message_handler(commands=["check_email"])
 def check_email(message):
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    username = "philosanjaychamberline.26csb@licet.ac.in"
-    password = "456@Icam"
+    username = "<MAIL ID FOR CHECKING EMAIL>"
+    password = "PASSWORD FOR ABOVE EMAIL"
     mail.login(username, password)
     mail.select("inbox")
     result, data = mail.search(None, "UNSEEN")
