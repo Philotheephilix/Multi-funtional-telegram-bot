@@ -124,4 +124,4 @@ def city(message):
         bot.send_message(message.chat.id, gw)
         bot.send_message(message.chat.id, sr)
         bot.send_message(message.chat.id, st)
-bot.polling()
+bot.infinity_polling()
