@@ -50,6 +50,16 @@ def convert(message):
     with open("merged.pdf", 'rb') as pdf_file:
         bot.send_document(message.chat.id, pdf_file)
         bot.reply_to(message, "PDF file sent")
+    def junk_removal():
+        os.remove("merged\\merged.pdf")
+        print("merged pdf deleted....")
+        for i in a:
+            os.remove("tempimg\\"+i)
+        print("temp img is deleted")
+        for i in a:
+            os.remove("temppdf\\"+i+".pdf")
+        print("temp pdf is deleted..")
+    junk_removal()
 @bot.message_handler(commands=["check_email"])
 def check_email(message):
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
