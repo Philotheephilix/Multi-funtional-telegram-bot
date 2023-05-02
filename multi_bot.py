@@ -98,40 +98,43 @@ def city(message):
         print(CITY)
         url = BASE_URL + "appid=" + API + "&q=" + CITY
         response = requests.get(url).json()
-        temp_kelvin = response["main"]['temp']
-        temp_celsius, temp_fahrenheit = kelvin_to_celsius_fahrenheit(temp_kelvin)
-        feels_like_kelvin = response["main"]['feels_like']
-        feels_like_celsius, feels_like_fahrenheit = kelvin_to_celsius_fahrenheit(feels_like_kelvin)
-        wind_speed = response['wind']['speed']
-        humidity = response['main']['humidity']
-        description = response['weather'][0]['description']
-        print(description)
-        if (description == 'broken clouds'):
-            bot.send_photo(chat_id=message.chat.id, photo=open(r'C:\Users\Administrator\Music\hackathon\img\brokenclouds.jpg', 'rb'))
-        elif (description == 'few clouds'):
-            bot.send_photo(chat_id=message.chat.id, photo=open(r'C:\Users\Administrator\Music\hackathon\img\fewclouds.jpg', 'rb'))
-        elif (description == 'overcast clouds'):
-            bot.send_photo(chat_id=message.chat.id, photo=open(r'C:\Users\Administrator\Music\hackathon\img\overcastclouds.jpg', 'rb'))
-        elif (description == 'scattered clouds'):
-            bot.send_photo(chat_id=message.chat.id, photo=open(r'C:\Users\Administrator\Music\hackathon\img\scatteredclouds.jpg', 'rb'))
-        elif (description == 'clearsky'):
-            bot.send_photo(chat_id=message.chat.id, photo=open(r'C:\Users\Administrator\Music\hackathon\img\clearsky.jpg', 'rb'))
-        elif (description == 'mist'):
-            bot.send_photo(chat_id=message.chat.id, photo=open(r'C:\Users\Administrator\Music\hackathon\img\mist.jpg', 'rb'))
-        sunrise_time = datetime.datetime.utcfromtimestamp(response['sys']['sunrise'] + response['timezone'])
-        sunset_time = datetime.datetime.utcfromtimestamp(response['sys']['sunset'] + response['timezone'])
-        t = (f"Temperature in {CITY}: {temp_celsius:.2f}*C or {temp_fahrenheit:.2f}*F")
-        flc = (f"Temperature in {CITY}: {feels_like_celsius:.2f}*C or {feels_like_fahrenheit:.2f}*F")
-        H = (f"Humidity in {CITY}: {humidity}%")
-        h = (f"Wind Speed in {CITY}: {wind_speed} m/s")
-        gw = (f"General Weather in {CITY} at {sunrise_time} local time: {description}")
-        sr = (f"Sun rises in {CITY} at {sunrise_time} local time.")
-        st = (f"Sun sets in {CITY} at {sunset_time} local time.")
-        bot.reply_to(message, t)
-        bot.send_message(message.chat.id, flc)
-        bot.send_message(message.chat.id, H)
-        bot.send_message(message.chat.id, h)
-        bot.send_message(message.chat.id, gw)
-        bot.send_message(message.chat.id, sr)
-        bot.send_message(message.chat.id, st)
+        if response==error_responce:
+                print("invalid city")
+        else:
+            temp_kelvin = response['main']['temp']
+            temp_celsius, temp_fahrenheit = kelvin_to_celsius_fahrenheit(temp_kelvin)
+            feels_like_kelvin = response["main"]['feels_like']
+            feels_like_celsius, feels_like_fahrenheit = kelvin_to_celsius_fahrenheit(feels_like_kelvin)
+            wind_speed = response['wind']['speed']
+            humidity = response['main']['humidity']
+            description = response['weather'][0]['description']
+            print(description)
+            if (description == 'broken clouds'):
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'brokenclouds.jpg', 'rb'))
+            elif (description == 'few clouds'):
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'fewclouds.jpg', 'rb'))
+            elif (description == 'overcast clouds'):
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'overcastclouds.jpg', 'rb'))
+            elif (description == 'scattered clouds'):
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'scatteredclouds.jpg', 'rb'))
+            elif (description == 'clearsky'):
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'clearsky.jpg', 'rb'))
+            elif (description == 'mist'):
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'mist.jpg', 'rb'))
+            sunrise_time = datetime.datetime.utcfromtimestamp(response['sys']['sunrise'] + response['timezone'])
+            sunset_time = datetime.datetime.utcfromtimestamp(response['sys']['sunset'] + response['timezone'])
+            t = (f"Temperature in {CITY}: {temp_celsius:.2f}*C or {temp_fahrenheit:.2f}*F")
+            flc = (f"Temperature in {CITY}: {feels_like_celsius:.2f}*C or {feels_like_fahrenheit:.2f}*F")
+            H = (f"Humidity in {CITY}: {humidity}%")
+            h = (f"Wind Speed in {CITY}: {wind_speed} m/s")
+            gw = (f"General Weather in {CITY} at {sunrise_time} local time: {description}")
+            sr = (f"Sun rises in {CITY} at {sunrise_time} local time.")
+            st = (f"Sun sets in {CITY} at {sunset_time} local time.")
+            bot.reply_to(message, t)
+            bot.send_message(message.chat.id, flc)
+            bot.send_message(message.chat.id, H)
+            bot.send_message(message.chat.id, h)
+            bot.send_message(message.chat.id, gw)
+            bot.send_message(message.chat.id, sr)
+            bot.send_message(message.chat.id, st)
 bot.infinity_polling()
