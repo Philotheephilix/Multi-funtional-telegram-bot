@@ -19,7 +19,7 @@ This bot can automate these following tasks
 [Contributors](https://github.com/Philotheephilix/Multi-funtional-telegram-bot/graphs/contributors)
 
 ## Introduction
-   This library provides a pure Python, code for the Telegram Bot . It's completely made with Python 3
+   This library provides a pure Python code for the Telegram Bot . It's completely made with Python 3
 
    Introducing a Python-based Telegram bot that is designed to simplify your messaging experience on the popular platform. This bot is built using the Telegram Bot API and can be easily installed and deployed on any machine that runs Python.
 

@@ -12,6 +12,16 @@ API_KEY = "<TELEGRAM BOT API KEY>"
 bot = telebot.TeleBot(API_KEY)
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 API = "<OPEN WEATHER API KEY>"
+tmpdir=os.getcwd()
+def mkdir():
+    try:
+        os.mkdir(tmpdir+"\\temp_img")
+        os.mkdir(tmpdir+"\\temp_pdf")
+        os.mkdir(tmpdir+"\\temp_merged")
+        print("done")
+    except:
+        print("dirs already exists")
+mkdir()
 bot = telebot.TeleBot(API_KEY)
 def remove(list):
     pattern = '[0-9]'
@@ -23,21 +33,22 @@ def handle_photos(message):
     file = bot.get_file(file_id)
     downloaded_file = bot.download_file(file.file_path)
     file_name = 'temp/' + file.file_path.split('/')[-1]
+    file_name = 'temp_img/' + file.file_path.split('/')[-1]
     with open(file_name, 'wb') as new_file:
         new_file.write(downloaded_file)
     bot.reply_to(message, "Photo saved!")
 @bot.message_handler(commands=["jpg2pdf"])
 def convert(message):
-    dir=r'C:\Users\Administrator\Music\hackathon\temp'
+    dir=tmpdir+"\\temp_img"
     a=os.listdir(dir)
     for i in a:
-        dirf=r'C:\Users\Administrator\Music\hackathon\temp'+"\\"+i
-        dirsav=r'C:\Users\Administrator\Music\hackathon\temp'+i+".pdf"
+        dirf=tmpdir+"\\temp_img\\"+i
+        dirsav=tmpdir+"\\temp_pdf\\"+i+".pdf"
         im=Image.open(dirf)
         imc=im.convert('RGB')
         imc.save(dirsav)
-    pdfs_dir =r'C:\Users\Administrator\Music\hackathon'  
-    merged_file_name = 'merged.pdf'
+    pdfs_dir =tmpdir+"\\temp_pdf"  
+    merged_file_name = 'temp_merged\\merged.pdf'
     pdf_merger = PdfFileMerger()
     for filename in os.listdir(pdfs_dir):
         if filename.endswith('.pdf'):
@@ -47,17 +58,17 @@ def convert(message):
     with open(merged_file_name, 'wb') as merged_file:
         pdf_merger.write(merged_file)
     print('PDFs merged successfully!')
-    with open("merged.pdf", 'rb') as pdf_file:
+    with open("temp_merged\\merged.pdf", 'rb') as pdf_file:
         bot.send_document(message.chat.id, pdf_file)
         bot.reply_to(message, "PDF file sent")
     def junk_removal():
-        os.remove("merged\\merged.pdf")
+        os.remove("temp_merged\\merged.pdf")
         print("merged pdf deleted....")
         for i in a:
-            os.remove("tempimg\\"+i)
+            os.remove("temp_img\\"+i)
         print("temp img is deleted")
         for i in a:
-            os.remove("temppdf\\"+i+".pdf")
+            os.remove("temp_pdf\\"+i+".pdf")
         print("temp pdf is deleted..")
     junk_removal()
 @bot.message_handler(commands=["check_email"])
@@ -98,6 +109,8 @@ def city(message):
         print(CITY)
         url = BASE_URL + "appid=" + API + "&q=" + CITY
         response = requests.get(url).json()
+        print(response)
+        error_responce={'cod': '404', 'message': 'city not found'}
         if response==error_responce:
                 print("invalid city")
         else:
@@ -110,17 +123,21 @@ def city(message):
             description = response['weather'][0]['description']
             print(description)
             if (description == 'broken clouds'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'brokenclouds.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'brokenclouds.jpg', 'rb'))
             elif (description == 'few clouds'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'fewclouds.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'fewclouds.jpg', 'rb'))
             elif (description == 'overcast clouds'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'overcastclouds.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'overcastclouds.jpg', 'rb'))
             elif (description == 'scattered clouds'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'scatteredclouds.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'scatteredclouds.jpg', 'rb'))
             elif (description == 'clearsky'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'clearsky.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'clearsky.jpg', 'rb'))
             elif (description == 'mist'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'mist.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'mist.jpg', 'rb'))
+            elif (description == 'haze'):
+                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'haze.jpg', 'rb'))
+            elif (description == 'light rain'):
+                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'light_rain.jpg', 'rb'))
             sunrise_time = datetime.datetime.utcfromtimestamp(response['sys']['sunrise'] + response['timezone'])
             sunset_time = datetime.datetime.utcfromtimestamp(response['sys']['sunset'] + response['timezone'])
             t = (f"Temperature in {CITY}: {temp_celsius:.2f}*C or {temp_fahrenheit:.2f}*F")
