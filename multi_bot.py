@@ -32,7 +32,6 @@ def handle_photos(message):
     file_id = message.photo[-1].file_id
     file = bot.get_file(file_id)
     downloaded_file = bot.download_file(file.file_path)
-    file_name = 'temp/' + file.file_path.split('/')[-1]
     file_name = 'temp_img/' + file.file_path.split('/')[-1]
     with open(file_name, 'wb') as new_file:
         new_file.write(downloaded_file)
@@ -76,12 +75,17 @@ def check_email(message):
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
     username = "<MAIL ID FOR CHECKING EMAIL>"
     password = "PASSWORD FOR ABOVE EMAIL"
-    mail.login(username, password)
-    mail.select("inbox")
-    result, data = mail.search(None, "UNSEEN")
-    unread_count = len(data[0].split())
-    bot.reply_to(message, f"You have {unread_count} unread emails.")
-    mail.logout()
+    try:
+        mail.login(username, password)
+        mail.select("inbox")
+        result, data = mail.search(None, "UNSEEN")
+        unread_count = len(data[0].split())
+        print("email count=",unread_count)
+        bot.reply_to(message, f"You have {unread_count} unread emails.")
+        mail.logout()
+    except:
+        print("invaid credential")
+        bot.reply_to(message,"Invalid Credentials")
 def kelvin_to_celsius_fahrenheit(kelvin):
     celsius = kelvin - 273.15
     fahrenheit = celsius * (9/5) + 32
