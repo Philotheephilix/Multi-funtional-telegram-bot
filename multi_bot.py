@@ -13,6 +13,8 @@ bot = telebot.TeleBot(API_KEY)
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 API = "<OPEN WEATHER API KEY>"
 tmpdir=os.getcwd()
+is_weather="0"
+sos_active="0"
 def mkdir():
     try:
         os.mkdir(tmpdir+"\\temp_img")
@@ -102,21 +104,35 @@ def tell_joke(message):
 @bot.message_handler(commands=["start"])
 def greet(message):
     bot.reply_to(message,"Hey! Hows it going?")
-@bot.message_handler(commands=["weather"])
+@bot.message_handler(commands=["weather","sos"])
 def weather(message):
-    bot.reply_to(message, "Set City")
+    status=str(message.text)
+    print(status)
+    global sos_active
+    global is_weather
+    if  status=="/weather":
+        is_weather="1"
+        bot.reply_to(message, "Set City")
+    else:
+        sos_active="1"
+        bot.reply_to(message,"Enter Country Name")
+    
 @bot.message_handler(func=lambda m: True)
 def city(message):
-    if type(message.text) != "philo":
+    global is_weather
+    global sos_active
+    if is_weather == "1":
         global CITY
         CITY = str(message.text)
         print(CITY)
-        url = BASE_URL + "appid=" + API + "&q=" + CITY
+        url = BASE_URL + "appid=" + OW_API + "&q=" + CITY
+        print(url)
         response = requests.get(url).json()
         print(response)
-        error_responce={'cod': '404', 'message': 'city not found'}
+        error_responce={"cod":"404","message":"city not found"}
         if response==error_responce:
-                print("invalid city")
+            print("invalid city")
+            bot.reply_to(message, "Enter a valid city name")
         else:
             temp_kelvin = response['main']['temp']
             temp_celsius, temp_fahrenheit = kelvin_to_celsius_fahrenheit(temp_kelvin)
@@ -158,4 +174,23 @@ def city(message):
             bot.send_message(message.chat.id, gw)
             bot.send_message(message.chat.id, sr)
             bot.send_message(message.chat.id, st)
+        is_weather="0"
+    elif sos_active=="1":
+        f=open("sos_list.txt","r")
+        data=f.readlines()
+        state=str(message.text)
+        state=state.capitalize()
+        print(state)
+        for i in data:
+            tmplist=i.split()
+            if state==tmplist[0]:
+                print(tmplist)
+                tmplist.pop()
+                tmplist.pop(0)
+                tmplist.pop(0)
+                tmplist.pop(0)
+                sos="Emergency Numbers For "+state+"\nAmbulance = "+tmplist[0]+"\nFire = "+tmplist[1]+"\nPolice = "+tmplist[2]
+                bot.reply_to(message,sos)
+    else:
+        bot.reply_to(message,"Enter valid command \nType /commands to list all commands")  
 bot.infinity_polling()

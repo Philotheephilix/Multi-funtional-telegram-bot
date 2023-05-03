@@ -1,0 +1,250 @@
+Country/Name Country/ISOCode Country/ISONumeric Ambulance/All/0 Fire/All/0 Police/All/0 Dispatch/All/0 Member_112 LocalOnly Notes NoData Dispatch/All/1 Dispatch/Fixed/0 Dispatch/GSM/0 Traffic/All/0 Police/All/1 Police/All/2 Ambulance/All/1 Police/GSM/0 Ambulance/GSM/0 Fire/All/1
+Afghanistan AF 4 112 119 119  false true false           
+"Åland Islands" AX 248 112 112 112  true false            
+Albania AL 8 112 112 112  true false            
+Algeria DZ 12 14 14 18  false false            
+"American Samoa" AS 16 911 911 911 911 false false            
+Andorra AD 20 112 112 112  false false            
+Angola AO 24 69 69 69  false false            
+Anguilla AI 660 911 911 911  false false  true          
+Antarctica AQ 10 911 911 911  false false  true          
+"Antigua and Barbuda" AG 28 911 911 911 999 false false   911         
+Argentina AR 32 911 911 911  false false            
+Armenia AM 51 112 112 112 911 true false            
+Aruba AW 533 911 911 911 911 false false            
+Australia AU 36 000 000 000  false false    000 112       
+Austria AT 40 112 112 112  true false            
+Azerbaijan AZ 31 112 112 112  true false            
+Bahamas BS 44 911 911 911 911 false false            
+Bahrain BH 48 999 999 999 999 false false            
+Bangladesh BD 50 999 999 999 999 false false            
+Barbados BB 52 911 911 911  false false            
+Belarus BY 112 103 101 102  false false            
+Belgium BE 56 112 112 112  true false            
+Belize BZ 84 911 911 911 911 false false            
+Benin BJ 204 118 112 117  false true            
+Bermuda BM 60 911 911 911 911 false false            
+Bhutan BT 64 112 110 113  false false            
+"Bolivia, Plurinational State of" BO 68 911 911 911 911 false false            
+"Bonaire, Sint Eustatius and Saba" BQ 535 911 911 911 911 false false            
+"Bosnia and Herzegovina" BA 70 112 112 112  true false            
+Botswana BW 72 911 911 911 997 false false   " 911"         
+"Bouvet Island" BV 74     false false Uninhabited true          
+Brazil BR 76 192 193 190  true false            
+"British Indian Ocean Territory" IO 86 112 112 112  false false            
+"Brunei Darussalam" BN 96 991 995 993  false false            
+Bulgaria BG 100 112 112 112  true false            
+"Burkina Faso" BF 854 18 112 17  false true false           
+Burundi BI 108 118 112 117  false true false           
+"Cape Verde" CV 132 131 130 132  false false            
+Cambodia KH 116 119 118 117  false false            
+Cameroon CM 120 112 112 112  false true false           
+Canada CA 124 911 911 911 911 false false     112       
+"Cayman Islands" KY 136 911 911 911 911 false false            
+"Central African Republic" CF 140 118 1220 117  false true false           
+Chad TD 148 18 2251-4242 17  false false            
+Chile CL 152 131 132 133  false false            
+China CN 156 120 119 110  false false      122      
+"Christmas Island" CX 162 000 000 000  false false  true          
+"Cocos (Keeling) Islands" CC 166 000 000 000  false false            
+Colombia CO 170 123 123 123 123 false false            
+Comoros KM 174 18 772-03-73 17  false true false           
+Congo CG 178 118  117  false true false           
+"Congo, the Democratic Republic of the" CD 180 118  112  false true false           
+"Cook Islands" CK 184 998 996 999  false false            
+"Costa Rica" CR 188 911 911 911 911 true false            
+"Côte d'Ivoire" CI 384  180 110  false false       111 170    
+Croatia HR 191 112 112 112  true false            
+Cuba CU 192 104 105 106 26811 false false            
+Curaçao CW 531 912 911 911  false false            
+Cyprus CY 196 112 112 112 199 true false            
+"Czech Republic" CZ 203 112 112 112  true false            
+Denmark DK 208 112 112 112  true false            
+Djibouti DJ 262 18 19 17  false false            
+Dominica DM 212 999 999 999 999 false false            
+"Dominican Republic" DO 214 911 911 911 911 true false            
+Ecuador EC 218 911 911 911  false false            
+Egypt EG 818 123 180 122  true false            
+"El Salvador" SV 222 132 913 911 999 false false            
+"Equatorial Guinea" GQ 226 112 115 114  false true false           
+Eritrea ER 232 116 114 113  false true false           
+Estonia EE 233 112 112 112  true false            
+Ethiopia ET 231 911 911 911  false false            
+"Falkland Islands (Malvinas)" FK 238 112 112 112 999 false false            
+"Faroe Islands" FO 234 112 112 112  true false            
+Fiji FJ 242 000 000 000 911 false false            
+Finland FI 246 112 112 112  true false            
+France FR 250 112 112 112  true false            
+"French Guiana" GF 254 112 112 112 112 false false            
+"French Polynesia" PF 258 112 112 112  false false            
+"French Southern Territories" TF 260 "No Permanent Population"    false false            
+Gabon GA 266 18 1300 1730  false false            
+Gambia GM 270 118 116 117  false false            
+Georgia GE 268 112 112 112  true false            
+Germany DE 276 112 112 112  true false            
+Ghana GH 288 999 999 999  false false            
+Gibraltar GI 292 112 112 112 999 true false            
+Greece GR 300 112 112 112  true false            
+Greenland GL 304 112 112 112  true false            
+Grenada GD 308 911 911 911  false false            
+Guadeloupe GP 312 112 112 112  false false            
+Guam GU 316 911 911 911 911 false false            
+Guatemala GT 320 128 122 110  false false            
+Guernsey GG 831 112 112 112  false false            
+Guinea GN 324 110 111 112  false true false           
+Guinea-Bissau GW 624 112 112 112  false true false           
+Guyana GY 328 999 999 999 999 false false            
+Haiti HT 332 115 116 114  false false            
+"Heard Island and McDonald Islands" HM 334     false false  true          
+Vatican VA 336 112 112 112  true false            
+Honduras HN 340 195 198 112  false false         " 195"   
+"Hong Kong" HK 344 999 999 999 999 false false     112       
+Hungary HU 348 112 112 112  true false            
+Iceland IS 352 112 112 112  true false            
+India IN 356 102 101 100  true false      103      
+Indonesia ID 360 113 118 110  false false          112  
+"Iran, Islamic Republic of" IR 364 125 115 110  false false          112  
+Iraq IQ 368 112 112 112  false true false           
+Ireland IE 372 112 112 112 999 true false            
+"Isle of Man" IM 833 112 112 112 999 false false            
+Israel IL 376 102 101 100  false false            
+Italy IT 380 112 112 112  true false            
+Jamaica JM 388 110 110 119  false false            
+Japan JP 392 119 119 110  false false            
+Jersey JE 832 112 112 112 999 true false            
+Jordan JO 400 911 911 911 911 true false      190      
+Kazakhstan KZ 398 112 112 112  true false            
+Kenya KE 404 112 112 112 999 false false            
+Kiribati KI 296 999 999 999  false false            
+"Korea, Democratic People's Republic of" KP 408 119 119 119  false true false           
+"Korea, Republic of" KR 410 119 119 112  false false            
+Kuwait KW 414 112 112 112  true false            
+Kyrgyzstan KG 417 101 103 102 103 false false            
+"Lao People's Democratic Republic" LA 418 190 195 191  false true            
+Latvia LV 428 112 112 112  true false            
+Lebanon LB 422 175 140 999  false false            
+Lesotho LS 426 122 121 123  false false       " 123"     
+Liberia LR 430 911 911 911  false false     911       
+Libya LY 434 1515 1515 1515 193 false false            
+Liechtenstein LI 438 112 112 112  false false            
+Lithuania LT 440 112 112 112  true false            
+Luxembourg LU 442 112 112 112  true false            
+Macau MO 446 999 999 999 999 true false            
+"Macedonia, the former Yugoslav Republic of" MK 807 112 112 112  true false            
+Madagascar MG 450 118 124 117  false true false           
+Malawi MW 454 999 998 997  false false            
+Malaysia MY 458 999 999 999  false false          112 112 
+Maldives MV 462 118 102 119  false false            
+Mali ML 466 18 15 17  false false            
+Malta MT 470 112 112 112  true false            
+"Marshall Islands" MH 584 911 911 911  false false            
+Martinique MQ 474 112 112 112  false false            
+Mauritania MR 478 118 101 117  false false            
+Mauritius MU 480 115 114 112 999 true false            
+Mayotte YT 175 112 112 112  false false            
+Mexico MX 484 066 066 066  false false            
+"Micronesia, Federated States of" FM 583 911 911 911  false true false           
+"Moldova, Republic of" MD 498 901 903 902  false false          112  
+Monaco MC 492 112 112 112  true false            
+Mongolia MN 496 105 105 105  false false            
+Montenegro ME 499 112 112 112  true false            
+Montserrat MS 500 911 911 911  false false            
+Morocco MA 504 15 15 19  false false            
+Mozambique MZ 508 198 117 119  false false            
+Myanmar MM 104    999 false false            
+Namibia NA 516   10111  false false            
+Nauru NR 520 111 112 110  false true false           
+Nepal NP 524 101 102 100  false false            
+Netherlands NL 528 112 112 112  true false            
+"New Caledonia" NC 540 112 112 112  false false  true          
+"New Zealand" NZ 554 111 111 111 111 true false            
+Nicaragua NI 558 128 115 118  false false            115
+Niger NE 562 18 15 17  false true false           
+Nigeria NG 566 112 112 112  false false            
+Niue NU 570     false false            
+"Norfolk Island" NF 574     false false            
+"Northern Mariana Islands" MP 580 112 112 112  false false            
+Norway NO 578 110 113 112  false false            
+Oman OM 512 999 999 999 999 false false            
+Pakistan PK 586 16 115 15 15 false false            
+Palau PW 585 911 911 911 911 false false            
+"Palestine, State of" PS 275 101 101 100  false false            
+Panama PA 591 911 911 911 911 true false            
+"Papua New Guinea" PG 598 110 111 112  false false            
+Paraguay PY 600 911 911 911 00 false false            
+Peru PE 604 911 911 911 011 false false   " 5114"         
+Philippines PH 608 911 911 911 116 false false   117         
+Pitcairn PN 612     false false  true          
+Poland PL 616 998 999 997  true false            
+Portugal PT 620 112 112 112  true false            
+"Puerto Rico" PR 630 911 911 911 911 false false            
+Qatar QA 634 999 999 999 999 false false            
+Réunion RE 638 112 112 112  false false         112   
+Romania RO 642 112 112 112  true false            
+"Russian Federation" RU 643 112 112 112  true false            
+Rwanda RW 646 112 912 112  false false            
+"Saint Barthélemy" BL 652     false false            
+"Saint Helena, Ascension and Tristan da Cunha" SH 654 999 911 999 911 false false            
+"Saint Kitts and Nevis" KN 659 911 911 911 911 false false            
+"Saint Lucia" LC 662 911 911 911 999 false false   911         
+"Saint Martin (French part)" MF 663     false false            
+"Saint Pierre and Miquelon" PM 666 112 112 112  false false            
+"Saint Vincent and the Grenadines" VC 670 911 911 911 999 false false   911         
+Samoa WS 882 911 911 911 999 false false            
+"San Marino" SM 674 112 112 112  false false            
+"Sao Tome and Principe" ST 678 112 112 112  false true false           
+"Saudi Arabia" SA 682 911 911 911  true false            
+Senegal SN 686 1515 18 17  true false false           
+Serbia RS 688 193 194 192  true false            
+Seychelles SC 690 112 112 112 999 false false            
+"Sierra Leone" SL 694 999 999 019  false false            
+Singapore SG 702 995 995 999  false false            
+"Sint Maarten (Dutch part)" SX 534     false false            
+Slovakia SK 703 112 112 112  true false            
+Slovenia SI 705 112 112 112  true false            
+"Solomon Islands" SB 90 911 911 911 911 false false            
+Somalia SO 706 555 999 888  false true false           
+"South Africa" ZA 710 10177 10177 10111  false false     112       
+"South Georgia and the South Sandwich Islands" GS 239 999 999 999  false false            
+"South Sudan" SS 728 999 999 999  false false            
+Spain ES 724 112 112 112  true false            
+"Sri Lanka" LK 144 110 110 119  false false            
+Sudan SD 729 999 999 999  false true false           
+Suriname SR 740 115 115 115  false true false           
+"Svalbard and Jan Mayen" SJ 744     false false            
+Swaziland SZ 748 933 977 999  false true false           
+Sweden SE 752 112 112 112  true false            
+Switzerland CH 756 112 112 112  true false            
+"Syrian Arab Republic" SY 760 113 110 112  false false            
+"Taiwan, Province of China" TW 158 119 119 110  false false            
+Tajikistan TJ 762 112 112 112  false false            
+"Tanzania, United Republic of" TZ 834 115 114 112 112 false false   999         
+Thailand TH 764 199 1669 191  false false            
+Timor-Leste TL 626 112 112 112  true false false           
+Togo TG 768 118 8200 117  false false            
+Tokelau TK 772     false false            
+Tonga TO 776 911 911 911 911 false false            
+"Trinidad and Tobago" TT 780 990 811 999  false false            
+Tunisia TN 788 190 198 197  false false            
+Turkey TR 792 112 112 112  false false            
+Turkmenistan TM 795 112 112 112  false false            
+"Turks and Caicos Islands" TC 796    999 false false   " 911"         
+Tuvalu TV 798 911 911 911 911 false false            
+Uganda UG 800 112 911 112  false false    999 112       
+Ukraine UA 804 112 112 112  true false            
+"United Arab Emirates" AE 784 112 112 112  true false            
+"United Kingdom of Great Britain and Northern Ireland" GB 826 112 112 112 999 true false            
+"United States Minor Outlying Islands" UM 581     false false            
+"United States of America" US 840 911 911 911 911 false false            
+Uruguay UY 858 911 911 911 999 false false   911         
+Uzbekistan UZ 860 112 112 112 03 false false            
+Vanuatu VU 548 112 112 112  true false            
+"Venezuela, Bolivarian Republic of" VE 862 911 911 911 171 false false            
+"Viet Nam" VN 704 114 115 113  false false            
+"Virgin Islands, British" VG 92 911 911 911 999 false false            
+"Virgin Islands, U.S." VI 850 911 911 911 911 false false            
+"Wallis and Futuna" WF 876     false false            
+"Western Sahara" EH 732 150 150 150  false false            
+Yemen YE 887 191 191 194  false false            
+Zambia ZM 894 999 999 999 999 false false            
+Zimbabwe ZW 716 999 999 999 999 false false            

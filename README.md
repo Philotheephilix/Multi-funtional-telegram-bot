@@ -12,6 +12,12 @@ This bot can automate these following tasks
 
   5. Greeting: When the user sends the command "/start", the bot greets the user with "Hey! Hows it going?"
 
+  6. SOS(Emergency Numbers): When the user sends the command "/sos ,the bot asks the user to set the country name. Then, when the user sends the country name, the bot retrieves the current SOS numbers for that country and returns it for example: if the user sets the country as "India" the bot returns 
+      Emergency Numbers For India
+      Ambulance = 102
+      Fire = 101
+      Police = 100
+
 ## Links
 [Releases](https://github.com/Philotheephilix/Multi-funtional-telegram-bot/releases)
 
