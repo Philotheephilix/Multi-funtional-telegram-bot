@@ -11,7 +11,7 @@ import re
 API_KEY = "<TELEGRAM BOT API KEY>"
 bot = telebot.TeleBot(API_KEY)
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
-API = "<OPEN WEATHER API KEY>"
+OW_API = "<OPEN WEATHER API KEY>"
 tmpdir=os.getcwd()
 is_weather="0"
 sos_active="0"
@@ -104,6 +104,17 @@ def tell_joke(message):
 @bot.message_handler(commands=["start"])
 def greet(message):
     bot.reply_to(message,"Hey! Hows it going?")
+@bot.message_handler(commands=["commands"])
+def message(message):
+    commands="""/start - greet to check life of the bot
+/tell_joke - returns a random joke
+/weather - view the weather of the city
+/check_email - check email for unread messages
+/jpg2pdf - converts images to pdf
+/sos - emergency contact number
+/commands - return list of commands
+"""
+    bot.reply_to(message,"Here are the list of commands \n"+commands)
 @bot.message_handler(commands=["weather","sos"])
 def weather(message):
     status=str(message.text)

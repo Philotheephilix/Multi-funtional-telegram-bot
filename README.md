@@ -18,6 +18,7 @@ This bot can automate these following tasks
       Fire = 101
       Police = 100
 
+  7. Commands : This command returns all the available commands 
 ## Links
 [Releases](https://github.com/Philotheephilix/Multi-funtional-telegram-bot/releases)
 
