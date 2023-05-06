@@ -8,102 +8,55 @@ import email
 from PIL import Image
 from PyPDF2 import PdfFileMerger
 import re
-API_KEY = "<TELEGRAM BOT API KEY>"
-bot = telebot.TeleBot(API_KEY)
-BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
-OW_API = "<OPEN WEATHER API KEY>"
-tmpdir=os.getcwd()
+from instagrapi import Client
+from instagrapi.exceptions import LoginRequired
+#
+#
+# INITIALIZE ALL REQUIRED KEYS AND CREDENTIALS BELOW FOR PROPER WORKING OF BOT
+#
+#
+OW_API = "<Enter Open Weather API KEY>"
+TELE_API_KEY = "<Enter telegram API KEY>"
+USERNAME,PASSWORD="<Enter your insta username>", "<Enter your Insta passwd>"
+#Variable initializing
 is_weather="0"
 sos_active="0"
-def mkdir():
+reels_active="0"
+string=" "
+cl = Client()
+tempdir=os.getcwd()
+# Directory creation and verification
+def init_dirs():
+    req_dir=("reels","temppdf","merged","tempimg")
+    path=os.getcwd()
     try:
-        os.mkdir(tmpdir+"\\temp_img")
-        os.mkdir(tmpdir+"\\temp_pdf")
-        os.mkdir(tmpdir+"\\temp_merged")
-        print("done")
-    except:
+        for i in req_dir:
+            os.mkdir(path+"\\"+i)
+            print("required dirs created")
+    except FileExistsError:
         print("dirs already exists")
-mkdir()
-bot = telebot.TeleBot(API_KEY)
+init_dirs()
+#Bot initialization
+bot = telebot.TeleBot(TELE_API_KEY)
+BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
+bot = telebot.TeleBot(TELE_API_KEY)
+# Initialize Joke.txt Dataset
 def remove(list):
     pattern = '[0-9]'
     list = [re.sub(pattern, '', i) for i in list]
     return list
+#Code for file handling (jpg2pdf) 
 @bot.message_handler(content_types=['photo'])
 def handle_photos(message):
     file_id = message.photo[-1].file_id
     file = bot.get_file(file_id)
     downloaded_file = bot.download_file(file.file_path)
-    file_name = 'temp_img/' + file.file_path.split('/')[-1]
+    file_name = 'tempimg/' + file.file_path.split('/')[-1]
     with open(file_name, 'wb') as new_file:
         new_file.write(downloaded_file)
     bot.reply_to(message, "Photo saved!")
-@bot.message_handler(commands=["jpg2pdf"])
-def convert(message):
-    dir=tmpdir+"\\temp_img"
-    a=os.listdir(dir)
-    for i in a:
-        dirf=tmpdir+"\\temp_img\\"+i
-        dirsav=tmpdir+"\\temp_pdf\\"+i+".pdf"
-        im=Image.open(dirf)
-        imc=im.convert('RGB')
-        imc.save(dirsav)
-    pdfs_dir =tmpdir+"\\temp_pdf"  
-    merged_file_name = 'temp_merged\\merged.pdf'
-    pdf_merger = PdfFileMerger()
-    for filename in os.listdir(pdfs_dir):
-        if filename.endswith('.pdf'):
-            file_path = os.path.join(pdfs_dir, filename)
-            with open(file_path, 'rb') as pdf_file:
-                pdf_merger.append(pdf_file)
-    with open(merged_file_name, 'wb') as merged_file:
-        pdf_merger.write(merged_file)
-    print('PDFs merged successfully!')
-    with open("temp_merged\\merged.pdf", 'rb') as pdf_file:
-        bot.send_document(message.chat.id, pdf_file)
-        bot.reply_to(message, "PDF file sent")
-    def junk_removal():
-        os.remove("temp_merged\\merged.pdf")
-        print("merged pdf deleted....")
-        for i in a:
-            os.remove("temp_img\\"+i)
-        print("temp img is deleted")
-        for i in a:
-            os.remove("temp_pdf\\"+i+".pdf")
-        print("temp pdf is deleted..")
-    junk_removal()
-@bot.message_handler(commands=["check_email"])
-def check_email(message):
-    mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    username = "<MAIL ID FOR CHECKING EMAIL>"
-    password = "PASSWORD FOR ABOVE EMAIL"
-    try:
-        mail.login(username, password)
-        mail.select("inbox")
-        result, data = mail.search(None, "UNSEEN")
-        unread_count = len(data[0].split())
-        print("email count=",unread_count)
-        bot.reply_to(message, f"You have {unread_count} unread emails.")
-        mail.logout()
-    except:
-        print("invaid credential")
-        bot.reply_to(message,"Invalid Credentials")
-def kelvin_to_celsius_fahrenheit(kelvin):
-    celsius = kelvin - 273.15
-    fahrenheit = celsius * (9/5) + 32
-    return celsius, fahrenheit
-@bot.message_handler(commands=["tell_joke"])
-def tell_joke(message):
-    i=random.randrange(0,1600)
-    joke=open("joke.txt","r")
-    data=joke.read().split(",") 
-    data=remove(data)
-    a=data[i]
-    print(a)
-    bot.reply_to(message, a)
-@bot.message_handler(commands=["start"])
-def greet(message):
-    bot.reply_to(message,"Hey! Hows it going?")
+    print ("img in temp..")
+#Code  for handling /commands
 @bot.message_handler(commands=["commands"])
 def message(message):
     commands="""/start - greet to check life of the bot
@@ -115,23 +68,95 @@ def message(message):
 /commands - return list of commands
 """
     bot.reply_to(message,"Here are the list of commands \n"+commands)
-@bot.message_handler(commands=["weather","sos"])
+#Code to handle jpg2pdf conversion
+@bot.message_handler(commands=["jpg2pdf"])
+def convert(message):
+    dir=tempdir+"\\tempimg"
+    a=os.listdir(dir)
+    print(a)
+    for i in a:
+        dirf=tempdir+"\\tempimg\\"+i
+        dirsav=tempdir+"\\temppdf\\"+i+".pdf"
+        im=Image.open(dirf)
+        imc=im.convert('RGB')
+        imc.save(dirsav)
+    pdfs_dir =tempdir+"\\temppdf\\"  
+    merged_file_name = 'merged\\merged.pdf'
+    pdf_merger = PdfFileMerger()
+    for filename in os.listdir(pdfs_dir):
+        if filename.endswith('.pdf'):
+            file_path = os.path.join(pdfs_dir, filename)
+            with open(file_path, 'rb') as pdf_file:
+                pdf_merger.append(pdf_file)
+    with open(merged_file_name, 'wb') as merged_file:
+        pdf_merger.write(merged_file)
+    print('PDFs merged successfully!')
+    with open("merged\\merged.pdf", 'rb') as pdf_file:
+        bot.send_document(message.chat.id, pdf_file)
+        bot.reply_to(message, "PDF file sent")
+    def junk_removal():
+        os.remove("merged\\merged.pdf")
+        print("merged pdf deleted....")
+        for i in a:
+            os.remove("tempimg\\"+i)
+        print("temp img is deleted")
+        for i in a:
+            os.remove("temppdf\\"+i+".pdf")
+        print("temp pdf is deleted..")
+    junk_removal()
+#Code to handle /check_email command
+@bot.message_handler(commands=["check_email"])
+def check_email(message):
+    mail = imaplib.IMAP4_SSL("imap.gmail.com")
+    username = "philosanjaychamberline.26csb@licet.ac.in"
+    password = "456@Icam"
+    mail.login(username, password)
+    mail.select("inbox")
+    result, data = mail.search(None, "UNSEEN")
+    unread_count = len(data[0].split())
+    bot.reply_to(message, f"You have {unread_count} unread emails.")
+    mail.logout()
+def kelvin_to_celsius_fahrenheit(kelvin):
+    celsius = kelvin - 273.15
+    fahrenheit = celsius * (9/5) + 32
+    return celsius, fahrenheit
+#Code to handle /tell_joke command
+@bot.message_handler(commands=["tell_joke"])
+def tell_joke(message):
+    i=random.randrange(0,1600)
+    joke=open("joke.txt","r")
+    data=joke.read().split(",") 
+    data=remove(data)
+    a=data[i]
+    print(a)
+    bot.reply_to(message, a)
+#Code to handle /start command
+@bot.message_handler(commands=["start"])
+def greet(message):
+    bot.reply_to(message,"Hey! Hows it going?")
+#Combined Code to handle weather , sos , reels command
+@bot.message_handler(commands=["weather","sos","reels"])
 def weather(message):
     status=str(message.text)
     print(status)
     global sos_active
     global is_weather
+    global reels_active
     if  status=="/weather":
         is_weather="1"
         bot.reply_to(message, "Set City")
-    else:
+    elif status=="/sos":
         sos_active="1"
         bot.reply_to(message,"Enter Country Name")
-    
+    else:
+        reels_active="1"
+        bot.reply_to(message,"Enter reels link")  
+#Code to handle execution of weather , sos, reels  
 @bot.message_handler(func=lambda m: True)
 def city(message):
     global is_weather
     global sos_active
+    global reels_active
     if is_weather == "1":
         global CITY
         CITY = str(message.text)
@@ -154,21 +179,21 @@ def city(message):
             description = response['weather'][0]['description']
             print(description)
             if (description == 'broken clouds'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'brokenclouds.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'brokenclouds.jpg', 'rb'))
             elif (description == 'few clouds'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'fewclouds.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'fewclouds.jpg', 'rb'))
             elif (description == 'overcast clouds'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'overcastclouds.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'overcastclouds.jpg', 'rb'))
             elif (description == 'scattered clouds'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'scatteredclouds.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'scatteredclouds.jpg', 'rb'))
             elif (description == 'clearsky'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'clearsky.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'clearsky.jpg', 'rb'))
             elif (description == 'mist'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'mist.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'mist.jpg', 'rb'))
             elif (description == 'haze'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'haze.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'haze.jpg', 'rb'))
             elif (description == 'light rain'):
-                bot.send_photo(chat_id=message.chat.id, photo=open(tmpdir+"\\img\\"+'light_rain.jpg', 'rb'))
+                bot.send_photo(chat_id=message.chat.id, photo=open(tempdir+"\\img\\"+'light_rain.jpg', 'rb'))
             sunrise_time = datetime.datetime.utcfromtimestamp(response['sys']['sunrise'] + response['timezone'])
             sunset_time = datetime.datetime.utcfromtimestamp(response['sys']['sunset'] + response['timezone'])
             t = (f"Temperature in {CITY}: {temp_celsius:.2f}*C or {temp_fahrenheit:.2f}*F")
@@ -195,13 +220,65 @@ def city(message):
         for i in data:
             tmplist=i.split()
             if state==tmplist[0]:
-                print(tmplist)
                 tmplist.pop()
                 tmplist.pop(0)
                 tmplist.pop(0)
                 tmplist.pop(0)
                 sos="Emergency Numbers For "+state+"\nAmbulance = "+tmplist[0]+"\nFire = "+tmplist[1]+"\nPolice = "+tmplist[2]
                 bot.reply_to(message,sos)
+        sos_active="0"
+    elif reels_active=="1":
+        def login_user():
+            global cl
+            session = cl.load_settings("session.json")
+            login_via_session = False
+            login_via_pw = False
+            if session:
+                try:
+                    cl.set_settings(session)
+                    cl.login(USERNAME, PASSWORD)
+                    try:
+                        cl.get_timeline_feed()
+                        print("logged using session")
+                    except LoginRequired:
+                        old_session = cl.get_settings()
+                        cl.set_settings({})
+                        cl.set_uuids(old_session["uuids"])
+                        cl.login(USERNAME, PASSWORD)
+                    login_via_session = True
+                except Exception as e:
+                    pass
+            if not login_via_session:
+                try:
+                    if cl.login(USERNAME, PASSWORD):
+                        login_via_pw = True
+                except Exception as e:
+                    pass
+            if not login_via_pw and not login_via_session:
+                raise Exception("Couldn't login user with either password or session")
+        def download_reels():
+            global cl
+            info = cl.media_pk_from_url(URL)
+            clip_url = cl.media_info(info).video_url
+            print("download folder:"+tempdir+"\reels")
+            cl.clip_download_by_url(clip_url, folder = tempdir+"\\reels")
+            print("downloaded")
+        def sendreels():
+            dlist=os.listdir(tempdir+"\\reels")
+            reeldir=dlist[0]
+            print(reeldir)
+            reel=open(tempdir+"\\reels\\"+reeldir,"rb")
+            print("opened")
+            bot.send_video(message.chat.id,reel,timeout=120)
+            print("reels sent")
+            reel.close()
+            os.remove(tempdir+"\\reels\\"+reeldir)
+        URL= str(message.text)
+        login_user()
+        download_reels()
+        sendreels()
+        reels_active="0"
     else:
-        bot.reply_to(message,"Enter valid command \nType /commands to list all commands")  
+        bot.reply_to(message,"Enter valid command \n type /commands to list all commands")
+#polling command to receive commands from bot
 bot.infinity_polling()

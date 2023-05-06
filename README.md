@@ -13,12 +13,14 @@ This bot can automate these following tasks
   5. Greeting: When the user sends the command "/start", the bot greets the user with "Hey! Hows it going?"
 
   6. SOS(Emergency Numbers): When the user sends the command "/sos ,the bot asks the user to set the country name. Then, when the user sends the country name, the bot retrieves the current SOS numbers for that country and returns it for example: if the user sets the country as "India" the bot returns 
-      Emergency Numbers For India
-      Ambulance = 102
-      Fire = 101
-      Police = 100
+        Emergency Numbers For India
+        Ambulance = 102
+        Fire = 101
+        Police = 100
 
   7. Commands : This command returns all the available commands 
+
+  8. Reels : When the user sends the command "/sos ,the bot asks the user to send instagram reel link, when the user sends the link the bot retrieves the reels video from instagram and sends it to the user
 ## Links
 [Releases](https://github.com/Philotheephilix/Multi-funtional-telegram-bot/releases)
 
@@ -51,6 +53,18 @@ BotFather is the official bot used to create and manage Telegram bots. Here are 
       4.Give a name to your bot and choose a username for it. The username should end with "bot". For example, MyTestBot.
   
       5.BotFather will then give you an API token that you will use to communicate with your bot. Save this token somewhere safe as you will need it later.
+
+      6. And also add these commands to the bot
+
+              start - greet to check life of the bot
+              tell_joke - returns a random joke
+              weather - view the weather of the city
+              check_email - check email for unread messages
+              jpg2pdf - converts images to pdf
+              sos - emergency contact number
+              commands - list all commands
+              reels - download instagram reels
+
   
   HOORAY Your bot is now created and ready to be configured.
 
