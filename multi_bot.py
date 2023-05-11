@@ -10,21 +10,74 @@ from PyPDF2 import PdfFileMerger
 import re
 from instagrapi import Client
 from instagrapi.exceptions import LoginRequired
+from dotenv import load_dotenv
 #
 #
 # INITIALIZE ALL REQUIRED KEYS AND CREDENTIALS BELOW FOR PROPER WORKING OF BOT
 #
 #
-OW_API = "<Enter Open Weather API KEY>"
-TELE_API_KEY = "<Enter telegram API KEY>"
-USERNAME,PASSWORD="<Enter your insta username>", "<Enter your Insta passwd>"
+from cryptography.fernet import Fernet
 #Variable initializing
+
 is_weather="0"
 sos_active="0"
 reels_active="0"
 string=" "
 cl = Client()
 tempdir=os.getcwd()
+Credentials={}
+
+
+#Code for handling credential encryption and decryption
+a=1
+if a==1:
+    try:
+        with open('crypt.key', 'rb') as filekey:
+            key = filekey.read()
+        
+        fernet = Fernet(key)
+        with open('.env', 'rb') as file:
+            original = file.read()
+        decrypted = fernet.decrypt(original)
+        with open('.env', 'wb+') as decrypted_file:
+            decrypted_file.write(decrypted)
+            dnc=decrypted_file.read()
+            print("decrypted")
+    except :
+        print("Invalid Key or Already decrypted")
+    
+    #loading credentials and keys from env file
+    load_dotenv(tempdir+"\.env")
+    username=os.getenv("E-mail_for_checking_email")
+    password=os.getenv("Password_for_checking_mail")
+    TELE_API_KEY = os.getenv("TELE_API_KEY")
+    print(TELE_API_KEY)
+    OW_API = os.getenv("Open_Weather_API")
+    USERNAME = os.getenv("Instagram_username")
+    PASSWORD = os.getenv("Instagram_password")
+    with open(".env","r") as credentials:
+        Credentials=credentials.readlines()
+        print(Credentials)
+    key = Fernet.generate_key()
+    with open('crypt.key', 'wb') as filekey:
+        filekey.write(key)
+        print("new key gen")
+    try:
+        with open('crypt.key', 'rb') as filekey:
+            key = filekey.read()        
+        fernet = Fernet(key)
+        with open('.env', 'rb') as file:
+            original = file.read()
+        encrypted = fernet.encrypt(original)
+        with open('.env', 'wb+') as encrypted_file:
+            encrypted_file.write(encrypted)
+            enc=encrypted_file.read()
+            print("encrypted")
+    except:
+        print("encrypt failed")    
+
+print(Credentials)
+
 # Directory creation and verification
 def init_dirs():
     req_dir=("reels","temppdf","merged","tempimg")
@@ -108,8 +161,6 @@ def convert(message):
 @bot.message_handler(commands=["check_email"])
 def check_email(message):
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    username = "philosanjaychamberline.26csb@licet.ac.in"
-    password = "456@Icam"
     mail.login(username, password)
     mail.select("inbox")
     result, data = mail.search(None, "UNSEEN")
