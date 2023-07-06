@@ -50,11 +50,9 @@ if a==1:
     load_dotenv(tempdir+"\.env")
     username=os.getenv("E-mail_for_checking_email")
     password=os.getenv("Password_for_checking_mail")
-    TELE_API_KEY = os.getenv("TELE_API_KEY")
+    TELE_API_KEY = os.getenv("Telegram_bot_API")
     print(TELE_API_KEY)
     OW_API = os.getenv("Open_Weather_API")
-    USERNAME = os.getenv("Instagram_username")
-    PASSWORD = os.getenv("Instagram_password")
     with open(".env","r") as credentials:
         Credentials=credentials.readlines()
         print(Credentials)
@@ -279,56 +277,13 @@ def city(message):
                 bot.reply_to(message,sos)
         sos_active="0"
     elif reels_active=="1":
-        def login_user():
-            global cl
-            session = cl.load_settings("session.json")
-            login_via_session = False
-            login_via_pw = False
-            if session:
-                try:
-                    cl.set_settings(session)
-                    cl.login(USERNAME, PASSWORD)
-                    try:
-                        cl.get_timeline_feed()
-                        print("logged using session")
-                    except LoginRequired:
-                        old_session = cl.get_settings()
-                        cl.set_settings({})
-                        cl.set_uuids(old_session["uuids"])
-                        cl.login(USERNAME, PASSWORD)
-                    login_via_session = True
-                except Exception as e:
-                    pass
-            if not login_via_session:
-                try:
-                    if cl.login(USERNAME, PASSWORD):
-                        login_via_pw = True
-                except Exception as e:
-                    pass
-            if not login_via_pw and not login_via_session:
-                raise Exception("Couldn't login user with either password or session")
-        def download_reels():
-            global cl
-            info = cl.media_pk_from_url(URL)
-            clip_url = cl.media_info(info).video_url
-            print("download folder:"+tempdir+"\reels")
-            cl.clip_download_by_url(clip_url, folder = tempdir+"\\reels")
-            print("downloaded")
-        def sendreels():
-            dlist=os.listdir(tempdir+"\\reels")
-            reeldir=dlist[0]
-            print(reeldir)
-            reel=open(tempdir+"\\reels\\"+reeldir,"rb")
-            print("opened")
-            bot.send_video(message.chat.id,reel,timeout=120)
-            print("reels sent")
-            reel.close()
-            os.remove(tempdir+"\\reels\\"+reeldir)
-        URL= str(message.text)
-        login_user()
-        download_reels()
-        sendreels()
-        reels_active="0"
+        ori_reel=str(message.text)
+        reel=ori_reel.split("https://www.instagram.com/reel/")
+        base_url="https://www.ddinstagram.com/reel/"
+        Reel_to_send=base_url+reel[1]
+        Reel_markup="[REEL]("+Reel_to_send+")"
+        print(Reel_markup)
+        bot.reply_to(message,Reel_markup)
     else:
         bot.reply_to(message,"Enter valid command \n type /commands to list all commands")
 #polling command to receive commands from bot

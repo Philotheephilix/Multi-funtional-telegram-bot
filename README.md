@@ -20,7 +20,7 @@ This bot can automate these following tasks
 
   7. Commands : This command returns all the available commands 
 
-  8. Reels : When the user sends the command "/sos ,the bot asks the user to send instagram reel link, when the user sends the link the bot retrieves the reels video from instagram and sends it to the user
+  8. Reels : When the user sends the command "/reels ,the bot asks the user to send instagram reel link, when the user sends the link the bot retrieves the reels video from instagram and sends it to the user
 ## Links
 [Releases](https://github.com/Philotheephilix/Multi-funtional-telegram-bot/releases)
 
