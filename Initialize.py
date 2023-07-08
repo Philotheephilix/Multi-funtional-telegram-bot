@@ -1,30 +1,16 @@
 import os
 from cryptography.fernet import Fernet
-
-def init_var():
-    mod={
-        "E-mail_for_checking_email":"",
-        "Password_for_checking_mail":"",
-        "Telegram_bot_API":"",
-        "Open_Weather_API":""
-        }
-    data=open(".env","r")
-    dada = data.readlines()
-    for val in dada:
-        print(val)
-        if ":" in val:
-            k, v = val.strip().split(":", 1)
-            if k in mod:
-                new_value = input(f"Enter a new value for {k}: ")
-                mod[k] = new_value
-    data.close()
+To_be_written=[]
+mod=["E-mail_for_checking_email","Password_for_checking_mail","Telegram_bot_API","Open_Weather_API"]
+def init():
+    mod=["E-mail_for_checking_email","Password_for_checking_mail","Telegram_bot_API","Open_Weather_API"]
+    for i in range(len(mod)):
+        new_value = input("Enter a new value for "+mod[i])
+        To_be_written.append(new_value)
     data=open(".env","w")
-    for key, value in mod.items():
-        data.write(f"{key}={value}\n")
+    for i in range(len(mod)):
+        data.write(mod[i]+"="+To_be_written[i]+"\n")
     data.close()
-    data=open(".env","r")
-    dada=data.read()
-    print(dada)
 def encrypt():
     key = Fernet.generate_key()
     with open('crypt.key', 'wb') as filekey:
@@ -54,5 +40,5 @@ def decrypt():
     except:
         print("Invalid Key or Already decrypted")
 decrypt()
-init_var()
+init()
 encrypt()
