@@ -285,6 +285,26 @@ def city(message):
         print(Reel_markup)
         bot.reply_to(message,Reel_markup)
     else:
-        bot.reply_to(message,"Enter valid command \n type /commands to list all commands")
+        status = str(message.text)
+        if status.startswith("https://www.instagram.com/reel/"):
+            print("reel")
+            ori_reel=str(message.text)
+            reel=ori_reel.split("https://www.instagram.com/reel/")
+            base_url="https://www.ddinstagram.com/reel/"
+            Reel_to_send=base_url+reel[1]
+            Reel_markup=Reel_to_send
+            print(Reel_markup)
+            bot.reply_to(message,Reel_markup)
+        elif status.startswith("https://www.instagram.com/p/"):
+            print("post")
+            ori_post=str(message.text)
+            reel=ori_post.split("https://www.instagram.com/p/")
+            base_url="https://www.ddinstagram.com/p/"
+            Post_to_send=base_url+reel[1]
+            Post_markup=Post_to_send
+            print(Post_markup)
+            bot.reply_to(message,Post_markup)
+        else:
+            bot.reply_to(message,"Enter valid command \n type /commands to list all commands")
 #polling command to receive commands from bot
 bot.infinity_polling()
