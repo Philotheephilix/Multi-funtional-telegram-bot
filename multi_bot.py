@@ -21,7 +21,6 @@ from cryptography.fernet import Fernet
 
 is_weather="0"
 sos_active="0"
-reels_active="0"
 string=" "
 cl = Client()
 tempdir=os.getcwd()
@@ -184,13 +183,12 @@ def tell_joke(message):
 def greet(message):
     bot.reply_to(message,"Hey! Hows it going?")
 #Combined Code to handle weather , sos , reels command
-@bot.message_handler(commands=["weather","sos","reels"])
+@bot.message_handler(commands=["weather","sos"])
 def weather(message):
     status=str(message.text)
     print(status)
     global sos_active
     global is_weather
-    global reels_active
     if  status=="/weather":
         is_weather="1"
         bot.reply_to(message, "Set City")
@@ -198,8 +196,7 @@ def weather(message):
         sos_active="1"
         bot.reply_to(message,"Enter Country Name")
     else:
-        reels_active="1"
-        bot.reply_to(message,"Enter reels link")  
+        pass  
 #Code to handle execution of weather , sos, reels  
 @bot.message_handler(func=lambda m: True)
 def city(message):
@@ -276,14 +273,6 @@ def city(message):
                 sos="Emergency Numbers For "+state+"\nAmbulance = "+tmplist[0]+"\nFire = "+tmplist[1]+"\nPolice = "+tmplist[2]
                 bot.reply_to(message,sos)
         sos_active="0"
-    elif reels_active=="1":
-        ori_reel=str(message.text)
-        reel=ori_reel.split("https://www.instagram.com/reel/")
-        base_url="https://www.ddinstagram.com/reel/"
-        Reel_to_send=base_url+reel[1]
-        Reel_markup="[REEL]("+Reel_to_send+")"
-        print(Reel_markup)
-        bot.reply_to(message,Reel_markup)
     else:
         status = str(message.text)
         if status.startswith("https://www.instagram.com/reel/"):
