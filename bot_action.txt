@@ -1,0 +1,7 @@
+/start - greet to check life of the bot
+/tell_joke - returns a random joke
+/weather - view the weather of the city
+/check_email - check email for unread messages
+/jpg2pdf - converts images to pdf
+/sos - emergency contact number
+/commands - return list of commands

@@ -20,8 +20,8 @@ This bot can automate these following tasks
 
   7. Commands : This command returns all the available commands 
 
-  8. Reels : when the user sends the link of the instagram reel the bot retrieves the reels video from instagram and sends it to the user
-  9. Posts : when the user sends the link of the instagram post the bot retrieves the post from instagram and sends it to the user
+  8. Reels : when the user sends the link of the instagram reel, The bot retrieves the reels video from instagram and sends it to the user
+  9. Posts : when the user sends the link of the instagram post, The bot retrieves the post from instagram and sends it to the user
 ## Links
 [Releases](https://github.com/Philotheephilix/Multi-funtional-telegram-bot/releases)
 
@@ -64,7 +64,6 @@ BotFather is the official bot used to create and manage Telegram bots. Here are 
               jpg2pdf - converts images to pdf
               sos - emergency contact number
               commands - list all commands
-              reels - download instagram reels
 
   
   HOORAY Your bot is now created and ready to be configured.
