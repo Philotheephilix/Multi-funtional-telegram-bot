@@ -21,7 +21,6 @@ from cryptography.fernet import Fernet
 
 is_weather="0"
 sos_active="0"
-reels_active="0"
 string=" "
 cl = Client()
 tempdir=os.getcwd()
@@ -185,13 +184,12 @@ def tell_joke(message):
 def greet(message):
     bot.reply_to(message,"Hey! Hows it going?")
 #Combined Code to handle weather , sos , reels command
-@bot.message_handler(commands=["weather","sos","reels"])
+@bot.message_handler(commands=["weather","sos"])
 def weather(message):
     status=str(message.text)
     print(status)
     global sos_active
     global is_weather
-    global reels_active
     if  status=="/weather":
         is_weather="1"
         bot.reply_to(message, "Set City")
@@ -199,8 +197,7 @@ def weather(message):
         sos_active="1"
         bot.reply_to(message,"Enter Country Name")
     else:
-        reels_active="1"
-        bot.reply_to(message,"Enter reels link")  
+        pass  
 #Code to handle execution of weather , sos, reels  
 @bot.message_handler(func=lambda m: True)
 def city(message):
