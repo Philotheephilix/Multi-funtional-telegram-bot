@@ -28,6 +28,7 @@ Credentials={}
 bot = ""
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 message=""
+path=os.getcwd()
 #Code for handling credential encryption and decryption
 def decrypt():
     a=1
@@ -83,7 +84,6 @@ encrypt()
 # Directory creation and verification
 def init_dirs():
     req_dir=("reels","temppdf","merged","tempimg")
-    path=os.getcwd()
     try:
         for i in req_dir:
             os.mkdir(path+"\\"+i)
@@ -105,10 +105,18 @@ def remove(list):
 #Code for file handling (jpg2pdf) 
 @bot.message_handler(content_types=['photo'])
 def handle_photos(message):
+    msgid=str(message.chat.id)
+    try:
+        os.mkdir(path+"\\tempimg\\"+msgid+"\\")
+        os.mkdir(path+"\\temppdf\\"+msgid+"\\")
+        os.mkdir(path+"\\merged\\"+msgid+"\\")
+    except:
+        print("folder exists")
     file_id = message.photo[-1].file_id
     file = bot.get_file(file_id)
     downloaded_file = bot.download_file(file.file_path)
-    file_name = 'tempimg/' + file.file_path.split('/')[-1]
+    print(file.file_path)
+    file_name = 'tempimg/'+msgid + "/"+file.file_path.split('/')[-1]
     with open(file_name, 'wb') as new_file:
         new_file.write(downloaded_file)
     bot.reply_to(message, "Photo saved!")
@@ -122,17 +130,18 @@ def message(message):
 #Code to handle jpg2pdf conversion
 @bot.message_handler(commands=["jpg2pdf"])
 def convert(message):
-    dir=tempdir+"\\tempimg"
+    msgid=str(message.chat.id)
+    dir=tempdir+"\\tempimg\\"+msgid+"\\"
     a=os.listdir(dir)
     print(a)
     for i in a:
-        dirf=tempdir+"\\tempimg\\"+i
-        dirsav=tempdir+"\\temppdf\\"+i+".pdf"
+        dirf=tempdir+"\\tempimg\\"+msgid+"\\"+i
+        dirsav=tempdir+"\\temppdf\\"+msgid+"\\"+i+".pdf"
         im=Image.open(dirf)
         imc=im.convert('RGB')
         imc.save(dirsav)
-    pdfs_dir =tempdir+"\\temppdf\\"  
-    merged_file_name = 'merged\\merged.pdf'
+    pdfs_dir =tempdir+"\\temppdf\\"+msgid+"\\"
+    merged_file_name = 'merged\\'+msgid+'\\merged.pdf'
     pdf_merger = PdfFileMerger()
     for filename in os.listdir(pdfs_dir):
         if filename.endswith('.pdf'):
@@ -142,17 +151,17 @@ def convert(message):
     with open(merged_file_name, 'wb') as merged_file:
         pdf_merger.write(merged_file)
     print('PDFs merged successfully!')
-    with open("merged\\merged.pdf", 'rb') as pdf_file:
+    with open("merged\\"+msgid+"\\merged.pdf", 'rb') as pdf_file:
         bot.send_document(message.chat.id, pdf_file)
         bot.reply_to(message, "PDF file sent")
     def junk_removal():
-        os.remove("merged\\merged.pdf")
+        os.remove("merged\\"+msgid+"\\merged.pdf")
         print("merged pdf deleted....")
         for i in a:
-            os.remove("tempimg\\"+i)
+            os.remove("tempimg\\"+msgid+"\\"+i)
         print("temp img is deleted")
         for i in a:
-            os.remove("temppdf\\"+i+".pdf")
+            os.remove("temppdf\\"+msgid+"\\"+i+".pdf")
         print("temp pdf is deleted..")
     junk_removal()
 #Code to handle /check_email command
@@ -257,6 +266,7 @@ def city(message):
             bot.send_message(message.chat.id, gw)
             bot.send_message(message.chat.id, sr)
             bot.send_message(message.chat.id, st)
+            print(message.chat.id)
         is_weather="0"
     elif sos_active=="1":
         f=open("sos_list.txt","r")
