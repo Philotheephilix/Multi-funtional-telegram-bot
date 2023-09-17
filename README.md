@@ -33,7 +33,7 @@ This bot can automate these following tasks
 
    Introducing a Python-based Telegram bot that is designed to simplify your messaging experience on the popular platform. This bot is built using the Telegram Bot API and can be easily installed and deployed on any machine that runs Python.
 
-   This bot provides an easy-to-use interface that allows users to interact with the Telegram platform using a set of pre-defined commands. Whether you want to send messages, images, or documents, this bot has got you covered.
+   This bot provides an easy-to-use interface that allows users to interact with the Telegram platform using a set of pre-defined commands. Whether you want to send messages, images, or documents, instagram post downloading , this bot has got you covered.
 
    The bot is designed with modularity in mind, meaning it is built using a set of self-contained modules that can be easily extended or modified to fit your specific use case. Some of the core modules used in the bot include the python-telegram-bot library for interacting with the Telegram Bot API, requests module for making HTTP requests, os module for working with the operating system
   
@@ -91,13 +91,16 @@ BotFather is the official bot used to create and manage Telegram bots. Here are 
 
 
 ## Security 
-  Our goal is to provide secure environment so we have no unneccessary online communication like analytics it's just standalone on your desk
+  Our goal is to provide secure environment so we have no unneccessary online communication like analytics it's just standalone on your desk.
 
-  As we give our E-Mail id to our bot we don't know how secure is this we are working on that to improvise the privacy.
+  We have included environmental variable to store all the credentials which is encrypted while executing initialize.py and will be only decrypted during bot startup.
 
-  We have included environmental variable to store all the credentials which is encrypted while executing initialize.py and will be only decrypted during bot startup
+  The most important thing is that it is based on rolling codes and the encryption key changes everytime you start the bot and is stored securely.
 
-  The most important thing is that it is based on rolling codes and the encryption key changes everytime you start the bot and is stored securely
+## Privacy
+  The uploaded images are automatically deleted after the pdf conversion. 
+
+  The E-Mail password is hashed and will not be shown to anyone including administrator.
 
 ## Feature request 
   If you guys are into some feature just feel free to contact me through  [TELEGRAM](https://t.me/philo_thee_philix)
