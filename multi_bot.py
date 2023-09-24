@@ -11,6 +11,7 @@ import re
 from instagrapi import Client
 from instagrapi.exceptions import LoginRequired
 from dotenv import load_dotenv
+import shutil
 #
 #
 # INITIALIZE ALL REQUIRED KEYS AND CREDENTIALS BELOW FOR PROPER WORKING OF BOT
@@ -21,6 +22,7 @@ from cryptography.fernet import Fernet
 
 is_weather="0"
 sos_active="0"
+emailinit_active="0"
 string=" "
 cl = Client()
 tempdir=os.getcwd()
@@ -83,7 +85,7 @@ encrypt()
 
 # Directory creation and verification
 def init_dirs():
-    req_dir=("reels","temppdf","merged","tempimg")
+    req_dir=("credentials","reels","temppdf","merged","tempimg")
     try:
         for i in req_dir:
             os.mkdir(path+"\\"+i)
@@ -165,6 +167,12 @@ def convert(message):
         print("temp pdf is deleted..")
     junk_removal()
 #Code to handle /check_email command
+@bot.message_handler(commands=['init_email'])
+def init_email(message):
+    global emailinit_active
+    emailinit_active="1"
+    bot.reply_to(message,"Enter your email address")
+    
 @bot.message_handler(commands=["check_email"])
 def check_email(message):
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
@@ -212,7 +220,7 @@ def weather(message):
 def city(message):
     global is_weather
     global sos_active
-    global reels_active
+    global emailinit_active
     if is_weather == "1":
         global CITY
         CITY = str(message.text)
@@ -284,6 +292,23 @@ def city(message):
                 sos="Emergency Numbers For "+state+"\nAmbulance = "+tmplist[0]+"\nFire = "+tmplist[1]+"\nPolice = "+tmplist[2]
                 bot.reply_to(message,sos)
         sos_active="0"
+    elif emailinit_active=="1":
+        emailid=str(message.text).encode()
+        emaillist=[]
+        emaillist.append(emailid)
+        msgid=str(message.chat.id)
+        try:
+            os.mkdir(path+"\\credentials\\"+msgid)
+        except:
+            print("Using previous directory")
+        shutil.copy("./credential.env","./credentials/"+msgid+"/credential.env")
+        Credential=open("./credentials/"+msgid+"/credential.env","ab")
+        if len(emaillist)<2:
+            bot.send_message(message.chat.id,"Enter your email password")
+        else:
+            Credential.write(emaillist)
+
+    
     else:
         status = str(message.text)
         if status.startswith("https://www.instagram.com/reel/"):
