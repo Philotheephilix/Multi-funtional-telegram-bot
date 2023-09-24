@@ -22,7 +22,8 @@ from cryptography.fernet import Fernet
 
 is_weather="0"
 sos_active="0"
-emailinit_active="0"
+emailinit_active=0
+email_pass="0"
 string=" "
 cl = Client()
 tempdir=os.getcwd()
@@ -55,7 +56,7 @@ decrypt()
 
 load_dotenv(tempdir+"\.env")
 username=os.getenv("E-mail_for_checking_email")
-password=os.getenv("Password_for_checking_mail")
+password=os.getenv("Password_for_checking_mail")        
 TELE_API_KEY = os.getenv("Telegram_bot_API")
 print(TELE_API_KEY)
 OW_API = os.getenv("Open_Weather_API")
@@ -169,12 +170,17 @@ def convert(message):
 #Code to handle /check_email command
 @bot.message_handler(commands=['init_email'])
 def init_email(message):
+    msgid=str(message.chat.id)
     global emailinit_active
-    emailinit_active="1"
+    emailinit_active=1
     bot.reply_to(message,"Enter your email address")
-    
+    shutil.copy("./credential.env","./credentials/"+msgid+"/credential.env")
 @bot.message_handler(commands=["check_email"])
 def check_email(message):
+    msgid=str(message.chat.id)
+    load_dotenv(tempdir+"\\credentials\\"+msgid+"\credential.env")
+    username=os.getenv("email")
+    password=os.getenv("pass")        
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
     mail.login(username, password)
     mail.select("inbox")
@@ -291,22 +297,32 @@ def city(message):
                 tmplist.pop(0)
                 sos="Emergency Numbers For "+state+"\nAmbulance = "+tmplist[0]+"\nFire = "+tmplist[1]+"\nPolice = "+tmplist[2]
                 bot.reply_to(message,sos)
-        sos_active="0"
-    elif emailinit_active=="1":
-        emailid=str(message.text).encode()
-        emaillist=[]
-        emaillist.append(emailid)
+        sos_active="0"   
+    elif emailinit_active ==1 or emailinit_active==2:
+        emailid=str(message.text)
         msgid=str(message.chat.id)
         try:
             os.mkdir(path+"\\credentials\\"+msgid)
         except:
             print("Using previous directory")
-        shutil.copy("./credential.env","./credentials/"+msgid+"/credential.env")
+
+        newline="\n"        
+        newline=newline.encode()
         Credential=open("./credentials/"+msgid+"/credential.env","ab")
-        if len(emaillist)<2:
-            bot.send_message(message.chat.id,"Enter your email password")
+        if emailinit_active==1:
+            emailid="email="+emailid
+            emailid=emailid.encode()
+            Credential.write(emailid)
         else:
-            Credential.write(emaillist)
+            emailid="pass="+emailid
+            emailid=emailid.encode()
+            Credential.write(emailid)
+        Credential.write(newline)
+        emailinit_active+=1
+        print()
+        if emailinit_active<=2:
+            bot.send_message(message.chat.id,"Enter your email password")   
+        
 
     
     else:
