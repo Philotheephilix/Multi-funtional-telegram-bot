@@ -30,7 +30,6 @@ tempdir=os.getcwd()
 Credentials={}
 bot = ""
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
-message=""
 path=os.getcwd()
 #Code for handling credential encryption and decryption
 def decrypt():
@@ -54,9 +53,7 @@ decrypt()
 
 #loading credentials and keys from env file
 
-load_dotenv(tempdir+"\.env")
-username=os.getenv("E-mail_for_checking_email")
-password=os.getenv("Password_for_checking_mail")        
+load_dotenv(tempdir+"\.env")       
 TELE_API_KEY = os.getenv("Telegram_bot_API")
 print(TELE_API_KEY)
 OW_API = os.getenv("Open_Weather_API")
@@ -177,17 +174,35 @@ def init_email(message):
     shutil.copy("./credential.env","./credentials/"+msgid+"/credential.env")
 @bot.message_handler(commands=["check_email"])
 def check_email(message):
-    msgid=str(message.chat.id)
-    load_dotenv(tempdir+"\\credentials\\"+msgid+"\credential.env")
-    username=os.getenv("email")
-    password=os.getenv("pass")        
-    mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    mail.login(username, password)
-    mail.select("inbox")
-    result, data = mail.search(None, "UNSEEN")
-    unread_count = len(data[0].split())
-    bot.reply_to(message, f"You have {unread_count} unread emails.")
-    mail.logout()
+    msgid = str(message.chat.id)
+    credential_path = os.path.join(tempdir, "credentials", msgid, "credential.env")
+    
+    # Read the email and password directly from the credential file
+    with open(credential_path, "r") as credential_file:
+        lines = credential_file.readlines()
+        email = None
+        password = None
+        for line in lines:
+            if line.startswith("email="):
+                email = line.strip("email=").strip()
+            elif line.startswith("pass="):
+                password = line.strip("pass=").strip()
+
+        if email and password:
+            # Use the loaded email and password
+            print(f"Loaded email: {email}")
+            print(f"Loaded password: {password}")
+
+            mail = imaplib.IMAP4_SSL("imap.gmail.com")
+            mail.login(email, password)
+            mail.select("inbox")
+            result, data = mail.search(None, "UNSEEN")
+            unread_count = len(data[0].split())
+            bot.reply_to(message, f"You have {unread_count} unread emails.")
+            mail.logout()
+        else:
+            bot.reply_to(message, "Email and/or password not found in credentials.")
+
 def kelvin_to_celsius_fahrenheit(kelvin):
     celsius = kelvin - 273.15
     fahrenheit = celsius * (9/5) + 32
@@ -319,9 +334,11 @@ def city(message):
             Credential.write(emailid)
         Credential.write(newline)
         emailinit_active+=1
-        print()
         if emailinit_active<=2:
             bot.send_message(message.chat.id,"Enter your email password")   
+        else:
+            emailinit_active=0
+            return 0
         
 
     
