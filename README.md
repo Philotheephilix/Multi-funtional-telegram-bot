@@ -5,7 +5,7 @@ This bot can automate these following tasks
   1. Convert photos to PDF: When the user sends the command "/jpg2pdf", the bot converts all the photos in the "tempimg" folder to PDFs and saves them in the "temppdf" folder. Then, the bot merges all the PDFs into a single PDF named "merged.pdf" and sends it to the user. Finally, the bot deletes all the temporary files.
 
   2. Check unread emails: When the user sends the command "/check_email", the bot logs in to the user's Gmail account, checks the number of unread emails in the inbox, and replies to the user with the number of unread emails.
-      **#NOTE: This feature works only on google workspace accounts**. 
+     >**#NOTE: This feature works only on google workspace accounts**. 
 
   4. Tell a joke: When the user sends the command "/tell_joke", the bot reads a random joke from a text file named "joke.txt" and sends it to the user.
 
