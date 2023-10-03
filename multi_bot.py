@@ -32,6 +32,34 @@ bot = ""
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 path=os.getcwd()
 #Code for handling credential encryption and decryption
+def encryptcred(msgid):
+    key = Fernet.generate_key()
+    with open('./credentials/'+msgid+'/crypt_cred.key', 'wb') as filekey:
+        filekey.write(key)
+        print("new key gen")    
+    with open('./credentials/'+msgid+'/crypt_cred.key', 'rb') as filekey:
+        key = filekey.read()        
+    fernet = Fernet(key)
+    with open("./credentials/"+msgid+'/credential.env', 'rb') as file:
+        original = file.read()
+    encrypted = fernet.encrypt(original)
+    with open("./credentials/"+msgid+'/credential.env', 'wb+') as encrypted_file:
+        encrypted_file.write(encrypted)
+        enc=encrypted_file.read()
+        print(enc)
+def decryptcred(msgid):
+    try:
+        with open('./credentials/'+msgid+'/crypt_cred.key', 'rb') as filekey:
+            key = filekey.read()
+        fernet = Fernet(key)
+        with open('./credentials/'+msgid+'/credential.env', 'rb') as file:
+            original = file.read()
+        decrypted = fernet.decrypt(original)
+        with open('./credentials/'+msgid+'/credential.env', 'wb+') as decrypted_file:
+            decrypted_file.write(decrypted)
+            print("decrypted")
+    except:
+        print("Invalid Key or Already decrypted")
 def decrypt():
     a=1
     if a==1:
@@ -171,10 +199,16 @@ def init_email(message):
     global emailinit_active
     emailinit_active=1
     bot.reply_to(message,"Enter your email address")
+    try:
+        os.mkdir(path+"\\credentials\\"+msgid)
+    except:
+        print("Using previous directory")
     shutil.copy("./credential.env","./credentials/"+msgid+"/credential.env")
+    shutil.copy("./crypt_cred.key","./credentials/"+msgid+"/crypt_cred.key")
 @bot.message_handler(commands=["check_email"])
 def check_email(message):
     msgid = str(message.chat.id)
+    decryptcred(msgid)
     credential_path = os.path.join(tempdir, "credentials", msgid, "credential.env")
     
     # Read the email and password directly from the credential file
@@ -187,12 +221,7 @@ def check_email(message):
                 email = line.strip("email=").strip()
             elif line.startswith("pass="):
                 password = line.strip("pass=").strip()
-
         if email and password:
-            # Use the loaded email and password
-            print(f"Loaded email: {email}")
-            print(f"Loaded password: {password}")
-
             mail = imaplib.IMAP4_SSL("imap.gmail.com")
             mail.login(email, password)
             mail.select("inbox")
@@ -202,7 +231,7 @@ def check_email(message):
             mail.logout()
         else:
             bot.reply_to(message, "Email and/or password not found in credentials.")
-
+    encryptcred(msgid)
 def kelvin_to_celsius_fahrenheit(kelvin):
     celsius = kelvin - 273.15
     fahrenheit = celsius * (9/5) + 32
@@ -316,10 +345,8 @@ def city(message):
     elif emailinit_active ==1 or emailinit_active==2:
         emailid=str(message.text)
         msgid=str(message.chat.id)
-        try:
-            os.mkdir(path+"\\credentials\\"+msgid)
-        except:
-            print("Using previous directory")
+        decryptcred(msgid)
+
 
         newline="\n"        
         newline=newline.encode()
@@ -338,8 +365,10 @@ def city(message):
             bot.send_message(message.chat.id,"Enter your email password")   
         else:
             emailinit_active=0
-            return 0
-        
+            Credential=open("./credentials/"+msgid+"/credential.env","r")
+            cred=Credential.read()
+            bot.send_message(message.chat.id,"verify ur credentials\n"+cred)
+            encryptcred(msgid)
 
     
     else:
