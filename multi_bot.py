@@ -8,16 +8,14 @@ import email
 from PIL import Image
 from PyPDF2 import PdfFileMerger
 import re
-from instagrapi import Client
-from instagrapi.exceptions import LoginRequired
 from dotenv import load_dotenv
 import shutil
+from cryptography.fernet import Fernet
 #
 #
 # INITIALIZE ALL REQUIRED KEYS AND CREDENTIALS BELOW FOR PROPER WORKING OF BOT
 #
 #
-from cryptography.fernet import Fernet
 #Variable initializing
 
 is_weather="0"
@@ -25,13 +23,14 @@ sos_active="0"
 emailinit_active=0
 email_pass="0"
 string=" "
-cl = Client()
 tempdir=os.getcwd()
 Credentials={}
 bot = ""
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 path=os.getcwd()
+
 #Code for handling credential encryption and decryption
+
 def encryptcred(msgid):
     key = Fernet.generate_key()
     with open('./credentials/'+msgid+'/crypt_cred.key', 'wb') as filekey:
@@ -110,6 +109,7 @@ def encrypt():
 encrypt()
 
 # Directory creation and verification
+
 def init_dirs():
     req_dir=("credentials","reels","temppdf","merged","tempimg")
     try:
@@ -119,18 +119,24 @@ def init_dirs():
     except FileExistsError:
         print("dirs already exists")
 init_dirs()
+
 #Bot initialization
+
 def bot_init():
     global bot
     bot = telebot.TeleBot(TELE_API_KEY)
     bot = telebot.TeleBot(TELE_API_KEY)
 bot_init()
+
 # Initialize Joke.txt Dataset
+
 def remove(list):
     pattern = '[0-9]'
     list = [re.sub(pattern, '', i) for i in list]
     return list
+
 #Code for file handling (jpg2pdf) 
+
 @bot.message_handler(content_types=['photo'])
 def handle_photos(message):
     msgid=str(message.chat.id)
@@ -155,7 +161,9 @@ def message(message):
     bot_action=open("bot_action.txt","r")
     commands=bot_action.read()
     bot.reply_to(message,"Here are the list of commands \n"+commands)
+
 #Code to handle jpg2pdf conversion
+
 @bot.message_handler(commands=["jpg2pdf"])
 def convert(message):
     msgid=str(message.chat.id)
@@ -192,7 +200,9 @@ def convert(message):
             os.remove("temppdf\\"+msgid+"\\"+i+".pdf")
         print("temp pdf is deleted..")
     junk_removal()
+
 #Code to handle /check_email command
+
 @bot.message_handler(commands=['init_email'])
 def init_email(message):
     msgid=str(message.chat.id)
@@ -211,7 +221,8 @@ def check_email(message):
     decryptcred(msgid)
     credential_path = os.path.join(tempdir, "credentials", msgid, "credential.env")
     
-    # Read the email and password directly from the credential file
+# Read the email and password directly from the credential file
+
     with open(credential_path, "r") as credential_file:
         lines = credential_file.readlines()
         email = None
@@ -236,7 +247,9 @@ def kelvin_to_celsius_fahrenheit(kelvin):
     celsius = kelvin - 273.15
     fahrenheit = celsius * (9/5) + 32
     return celsius, fahrenheit
+
 #Code to handle /tell_joke command
+
 @bot.message_handler(commands=["tell_joke"])
 def tell_joke(message):
     i=random.randrange(0,1600)
@@ -264,8 +277,10 @@ def weather(message):
         sos_active="1"
         bot.reply_to(message,"Enter Country Name")
     else:
-        pass  
+        pass 
+
 #Code to handle execution of weather , sos, reels  
+
 @bot.message_handler(func=lambda m: True)
 def city(message):
     global is_weather
@@ -346,8 +361,6 @@ def city(message):
         emailid=str(message.text)
         msgid=str(message.chat.id)
         decryptcred(msgid)
-
-
         newline="\n"        
         newline=newline.encode()
         Credential=open("./credentials/"+msgid+"/credential.env","ab")
