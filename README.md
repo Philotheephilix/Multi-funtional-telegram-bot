@@ -5,23 +5,24 @@ This bot can automate these following tasks
   1. Convert photos to PDF: When the user sends the command "/jpg2pdf", the bot converts all the photos in the "tempimg" folder to PDFs and saves them in the "temppdf" folder. Then, the bot merges all the PDFs into a single PDF named "merged.pdf" and sends it to the user. Finally, the bot deletes all the temporary files.
 
   2. Check unread emails: When the user sends the command "/check_email", the bot logs in to the user's Gmail account, checks the number of unread emails in the inbox, and replies to the user with the number of unread emails.
+     >**#NOTE: This feature works only on google workspace accounts**. 
 
-  3. Tell a joke: When the user sends the command "/tell_joke", the bot reads a random joke from a text file named "joke.txt" and sends it to the user.
+  4. Tell a joke: When the user sends the command "/tell_joke", the bot reads a random joke from a text file named "joke.txt" and sends it to the user.
 
-  4. Weather information: When the user sends the command "/weather", the bot asks the user to set the city. Then, when the user sends the city name, the bot retrieves the current weather information of the city from the OpenWeatherMap API and sends it to the user. If the weather is "broken clouds", the bot sends a photo of broken clouds to the user.
+  5. Weather information: When the user sends the command "/weather", the bot asks the user to set the city. Then, when the user sends the city name, the bot retrieves the current weather information of the city from the OpenWeatherMap API and sends it to the user. If the weather is "broken clouds", the bot sends a photo of broken clouds to the user.
 
-  5. Greeting: When the user sends the command "/start", the bot greets the user with "Hey! Hows it going?"
+  6. Greeting: When the user sends the command "/start", the bot greets the user with "Hey! Hows it going?"
 
-  6. SOS(Emergency Numbers): When the user sends the command "/sos ,the bot asks the user to set the country name. Then, when the user sends the country name, the bot retrieves the current SOS numbers for that country and returns it for example: if the user sets the country as "India" the bot returns 
+  7. SOS(Emergency Numbers): When the user sends the command "/sos ,the bot asks the user to set the country name. Then, when the user sends the country name, the bot retrieves the current SOS numbers for that country and returns it for example: if the user sets the country as "India" the bot returns 
         Emergency Numbers For India
         Ambulance = 102
         Fire = 101
         Police = 100
 
-  7. Commands : This command returns all the available commands 
+  8. Commands : This command returns all the available commands 
 
-  8. Reels : when the user sends the link of the instagram reel, The bot retrieves the reels video from instagram and sends it to the user
-  9. Posts : when the user sends the link of the instagram post, The bot retrieves the post from instagram and sends it to the user
+  9. Reels : when the user sends the link of the instagram reel, The bot retrieves the reels video from instagram and sends it to the user
+  10. Posts : when the user sends the link of the instagram post, The bot retrieves the post from instagram and sends it to the user
 ## Links
 [Releases](https://github.com/Philotheephilix/Multi-funtional-telegram-bot/releases)
 
